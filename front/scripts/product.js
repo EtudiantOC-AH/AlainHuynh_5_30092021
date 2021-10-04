@@ -1,17 +1,19 @@
-let params = new URL(document, location).searchParams;
+let params = new URL(location).searchParams;
 let id = params.get("id");
 
-fetch('http://localhost:3000/api/products/${_id}')
+fetch('http://localhost:3000/api/products/' + id)
     .then((response) => response.json())
-    .then(productId => {
-        console.log(productId);
-    document.getElementsByClassName("item__img").innerHTML += '<img src="${productId.imageUrl}" alt="${productId.altTxt}"></img>';
-    document.getElementById("title").textContent += '${productId.name}';
-    document.getElementById("price").textContent += '${productId.price}';
-    document.getElementById('description').textContent += '${productId.description}';
-    document.getElementsByTagName('option').innerHTML+= '<option value="${colors}"</option>';
+    .then(product => {
+        console.log(product);
+    document.querySelector('.item__img').innerHTML += `<img src="${product.imageUrl}" alt="${product.altTxt}">`
+    document.getElementById("title").textContent += product.name;
+    document.getElementById("price").textContent += product.price;
+    document.getElementById('description').textContent += product.description;
+    product.colors.forEach(color => {
+    document.getElementById('colors').innerHTML += `<option value="${color}">${color}</option>`
+      })
     })
     .catch((error) => {
-        let messageError = document.querySelector("item");
+        let messageError = document.querySelector(".item");
         messageError.innerHTML = "Une erreur est survenue...";
     })
