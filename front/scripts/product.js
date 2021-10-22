@@ -14,35 +14,48 @@ fetch('http://localhost:3000/api/products/' + id)
       })
     })
 
-const ajoutPanier = document.getElementById('addToCart');    // On récupère l'élément sur lequel on veut détecter le clic
-ajoutPanier.addEventListener('click', (event) => {     // On écoute l'événement click, notre callback prend un paramètre que nous avons appelé event ici
-    event.preventDefault();         // On utilise la fonction preventDefault de notre objet event pour empêcher le comportement par défaut de cet élément lors du clic de la souris
+const ajoutPanier = document.getElementById('addToCart');    // Récupère l'élément sur lequel on veut détecter le clic
+ajoutPanier.addEventListener('click', (event) => {     // Ecouter l'événement click, notre callback prend un paramètre que nous avons appelé event ici
+    event.preventDefault();         // Utiliser la fonction preventDefault de notre objet event pour empêcher le comportement par défaut de cet élément lors du clic de la souris
 
-    let quantity = document.getElementById('quantity').value; //<input type="number" name="itemQuantity" min="1" max="100" value="0" id="quantity">
-    let color = document.getElementById('colors').value; //<select name="color-select" id="colors">
+    let quantity = document.getElementById('quantity').value; 
+    let color = document.getElementById('colors').value; 
+    let name = document.getElementById('title');
+    let image = document.querySelector('.item__img');
+    let price = document.getElementById('price');
 
-    let productAdded = [{'idChosen': id, 'quantityChosen': quantity, 'colorChosen': color }]; // Récupérer les données dans un tableau
+    let productAdded = [{'idChosen': id, 'quantityChosen': quantity, 'colorChosen': color, 'titleChosen': name, 'imgChosen': image, 'priceChosen': price }]; // Récupérer les données dans un tableau
         //console.log(productAdded);
-
+        let panier = addPanier(productAdded)
     //convertir le tableau en json et en chaine de caractères
     let productAddedJSON = JSON.stringify(productAdded);
-
     //local storage stockage
     localStorage.setItem('monPanier', productAddedJSON);
-    alert('Vos articles ont été ajoutés au panier');
-    document.location = 'cart.html';
 }); 
-/*Lorsqu’on ajoute un produit au panier, si celui-ci n'était pas déjà présent dans le panier, 
-    on ajoute un nouvel élément dans l’array.*/
 
-    /*Lorsqu’on ajoute un produit au panier, si celui-ci était déjà présent
-dans le panier (même id + même couleur), on incrémente
-simplement la quantité du produit correspondant dans l’array.
-if () {
-    
-} else {
+function addPanier(productAdded) {
+    let monPanier = localStorage.getItem("monPanier");
+    if (monPanier != null)  {
+        let monPanierJSON = JSON.parse(monPanier);
+        monPanierJSON.forEach(product => {
+            //console.log(product)
+            if (product.idChosen == productAdded.idChosen & product.colorChosen == productAdded.colorChosen) {
+                product.quantityChosen++
+            } else {
+                (product.idChosen != productAdded.idChosen); 
+                productAdded.push(monPanier)
+            }
+        })
+    }
+            localStorage.setItem('monPanier', productAdded);
+            alert('Vos articles ont été ajoutés au panier');
+            document.location = 'cart.html';
+};
 
-};*/
+addPanier();
+
+
+
 
 
 

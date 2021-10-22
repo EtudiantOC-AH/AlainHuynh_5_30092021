@@ -1,28 +1,29 @@
 
 //lecture local storage
 let monPanier = localStorage.getItem("monPanier");
-//console.log(monPanier)
 
 //transformation en tableau javascript
 let productAdded = JSON.parse(monPanier);
+console.log(productAdded)
 
 //afficher les produits
 let productsCardHTML = ""
 productAdded.forEach(productChosen => {
+  console.log(productChosen)
     productsCardHTML += `
-    <article class="cart__item" data-id="${productChosen.id}">
+    <article class="cart__item" data-id="${productChosen.idChosen}">
     <div class="cart__item__img">
-      <img src="${productChosen.imageUrl}" alt="${productChosen.altTxt}">
+      <img src="${productChosen.imageUrlChosen}" alt="${productChosen.altTxtChosen}">
     </div>
     <div class="cart__item__content">
                   <div class="cart__item__content__titlePrice">
-                    <h2>${productChosen.name}</h2>
-                    <p>${productChosen.price}</p>
+                    <h2>${productChosen.titleChosen}</h2>
+                    <p>${productChosen.priceChosen}</p>
                   </div>
                   <div class="cart__item__content__settings">
                     <div class="cart__item__content__settings__quantity">
                       <p>Qté : </p>
-                      <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${productChosen.quantity}">
+                      <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${productChosen.quantityChosen}">
                     </div>
                     <div class="cart__item__content__settings__delete">
                       <p class="deleteItem">Supprimer</p>
