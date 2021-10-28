@@ -35,7 +35,6 @@ productAdded.forEach(async productChosen => {
 `
 document.getElementById('cart__items').innerHTML = productsCardHTML
 })
-//prix total du panier
 
 
 //addEventListener de type change pour observer le changement de la quantité
@@ -45,5 +44,17 @@ changeQty.addEventListener("change", (event) => {
 })
 //méthode Element.closest() devrait permettre de cibler l’identifiant du produit à supprimer / de la quantité à modifier
 
-
+//calcul du montant total du panier
+let calculTotalPrice = [];
+//récupérer les prix dans le panier
+for (let a = 0; a < productAdded.lenght; a++) {
+  let productsAddedPrice = productAdded[a].price * productAdded[a].quantityChosen;
+  //mettre les prix dans le tableau
+  calculTotalPrice.push(productsAddedPrice);
+}
+// Additionner les prix du tableau dans la variable calculTotalPrice avec la méthode reduce
+const reducer = (accumulator, currentValue) => accumulator + currentValue;
+const totalPrice = calculTotalPrice.reduce(reducer);
+//affichage prix html
+document.getElementById('totalPrice').innerHTML = totalPrice;
 
