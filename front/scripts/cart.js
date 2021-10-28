@@ -8,17 +8,18 @@ console.log(productAdded)
 
 //afficher les produits
 let productsCardHTML = ""
-productAdded.forEach(productChosen => {
+productAdded.forEach(async productChosen => {
   console.log(productChosen)
+  let product = await getProduct(productChosen.idChosen)
     productsCardHTML += `
     <article class="cart__item" data-id="${productChosen.idChosen}">
     <div class="cart__item__img">
-      <img src="${productChosen.imageUrlChosen}" alt="${productChosen.altTxtChosen}">
+      <img src="${product.imageUrl}" alt="${product.altTxt}">
     </div>
     <div class="cart__item__content">
                   <div class="cart__item__content__titlePrice">
-                    <h2>${productChosen.titleChosen}</h2>
-                    <p>${productChosen.priceChosen}</p>
+                    <h2>${product.name} - ${productChosen.colorChosen}</h2>
+                    <p>${product.price}</p>
                   </div>
                   <div class="cart__item__content__settings">
                     <div class="cart__item__content__settings__quantity">
@@ -34,16 +35,15 @@ productAdded.forEach(productChosen => {
 `
 document.getElementById('cart__items').innerHTML = productsCardHTML
 })
+//prix total du panier
+
 
 //addEventListener de type change pour observer le changement de la quantité
-/*const suppPanier =  document.querySelectorAll('input.itemQuantity');
-suppPanier.addEventListener('change', () => {
-
-}
+const changeQty =  document.querySelectorAll('input.itemQuantity');
+changeQty.addEventListener("change", (event) => {
+    event.preventDefault();
+})
 //méthode Element.closest() devrait permettre de cibler l’identifiant du produit à supprimer / de la quantité à modifier
-let = element.closest()*/
-
-//<p>Total (<span id="totalQuantity"><!-- 2 --></span> articles) : <span id="totalPrice"><!-- 84,00 --></span> €</p>
 
 
 
