@@ -58,3 +58,11 @@ const totalPrice = calculTotalPrice.reduce(reducer);
 //affichage prix html
 document.getElementById('totalPrice').innerHTML = totalPrice;
 
+/*//formulaire 
+let formulaire = document.querySelector('.cart__order__form');
+
+// Ecouter la modification
+formulaire.firstName.addEventListener('change', function () {
+	();
+}); 
+utiliser regex*/
