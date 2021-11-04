@@ -38,17 +38,52 @@ document.getElementById('cart__items').innerHTML = productsCardHTML
 
 
 //addEventListener de type change pour observer le changement de la quantité
-const changeQty =  document.querySelectorAll('input.itemQuantity');
-changeQty.addEventListener("change", (event) => {
-    event.preventDefault();
-})
-//méthode Element.closest() devrait permettre de cibler l’identifiant du produit à supprimer / de la quantité à modifier
+function changeQty() {
+  let qtyModif = document.querySelectorAll(".itemQuantity");
+    for (let a = 0; a < qtyModif.length; a++){
+      qtyModif[a].addEventListener("change" , (event) =>{
+          event.preventDefault();
+//Selection de l'element à modifier
+          let quantityModif = productAdded[a].quantityChosen;
+          let quantityValue = qtyModif[a].valueAsNumber;
+
+          localStorage.setItem("monPanier", JSON.stringify(productAdded));
+
+          // refresh
+          location.reload();
+      })
+  }
+}
+changeQty();
+
+
+//supprimer un produit
+function deleteProduct() {
+  let btn_supprimer = document.querySelectorAll(".deleteItem");
+  for (let b = 0; b < btn_supprimer.length; b++){
+    btn_supprimer[b].addEventListener("click" , (event) => {
+        event.preventDefault();
+//Selection de l'element à supprimer en fonction de son id ET sa couleur
+let idDelete = productAdded[b].idChosen;
+let colorDelete = productAdded[b].colorChosen;
+//avec la méthode filter je supprime l'élément cliqué
+productAdded = productAdded.filter( el => el.idChosen !== idDelete || el.colorChosen !== colorDelete );
+//trandformation en JSON et l'envoyer dans la key du local storage
+localStorage.setItem("monPanier", JSON.stringify(productAdded));
+//Alerte produit supprimé et refresh
+alert("Ce produit a bien été supprimé du panier");
+location.reload();
+    })
+  }
+};
+deleteProduct();
+
 
 //calcul du montant total du panier
 let calculTotalPrice = [];
 //récupérer les prix dans le panier
-for (let a = 0; a < productAdded.lenght; a++) {
-  let productsAddedPrice = productAdded[a].price * productAdded[a].quantityChosen;
+for (let c = 0; c < productChosen.lenght; c++) {
+  let productsAddedPrice = productChosen[c].price * productChosen[c].quantityChosen;
   //mettre les prix dans le tableau
   calculTotalPrice.push(productsAddedPrice);
 }
@@ -58,11 +93,12 @@ const totalPrice = calculTotalPrice.reduce(reducer);
 //affichage prix html
 document.getElementById('totalPrice').innerHTML = totalPrice;
 
+
 /*//formulaire 
 let formulaire = document.querySelector('.cart__order__form');
 
 // Ecouter la modification
 formulaire.firstName.addEventListener('change', function () {
-	();
+	
 }); 
-utiliser regex*/
+//utiliser regex*/

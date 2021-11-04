@@ -23,29 +23,32 @@ ajoutPanier.addEventListener('click', (event) => {     // Ecouter l'événement 
     let quantity = document.getElementById('quantity').value; 
     let color = document.getElementById('colors').value; 
 
-    let productAdded = [{'idChosen': id, 'quantityChosen': quantity, 'colorChosen': color}]; // Récupérer les données dans un tableau
+    let productAdded = {'idChosen': id, 'quantityChosen': quantity, 'colorChosen': color}; // Récupérer les données dans un objet
 
     addPanier(productAdded)
 
 }); 
 
 function addPanier(productAdded) {
-    let monPanier = localStorage.getItem("monPanier");
-    if (monPanier != null)  {
-        let monPanierJSON = JSON.parse(monPanier);
-        monPanierJSON.forEach(product => {
+    let monPanierJSON = localStorage.getItem("monPanier");
+    if (monPanierJSON != null)  {
+        let monPanier = JSON.parse(monPanierJSON);
+        let isNew = true;
+        monPanier.forEach(product => {
             //console.log(product)
             if (product.idChosen == productAdded.idChosen && product.colorChosen == productAdded.colorChosen) {
-                product.quantityChosen++
-            } else { 
-                monPanierJSON.push(productAdded)
-            } 
+                product.quantityChosen = parseInt(product.quantityChosen) + parseInt(productAdded.quantityChosen)
+                isNew = false
+            }
         })
-        localStorage.setItem('monPanier', JSON.stringify(monPanierJSON));
+        if (isNew) {
+            monPanier.push(productAdded)
+        }
+        localStorage.setItem('monPanier', JSON.stringify(monPanier));
         alert('Vos articles ont été ajoutés au panier');
         document.location = 'cart.html';
     } else {
-        localStorage.setItem('monPanier', JSON.stringify(productAdded));
+        localStorage.setItem('monPanier', JSON.stringify([productAdded]));
         alert('Vos articles ont été ajoutés au panier');
         document.location = 'cart.html';
     }
